@@ -3,8 +3,8 @@ import { ROUTERS } from "./router-info"
 
 //创建路由
 const router = createRouter({
-    history: createWebHistory(API),
-    routers: [
+    history: createWebHistory(),
+    routes: [
         {
             path: "/login",
             component: () => import("@/pages/Login.vue"),

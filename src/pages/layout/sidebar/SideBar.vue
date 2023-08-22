@@ -27,6 +27,7 @@ const route = useRoute()
 const router = useRouter()
 
 const routes = computed(() => router.options.routes)
+console.log(routes)
 
 onMounted(() => {
     //响应式配置

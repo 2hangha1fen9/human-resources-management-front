@@ -1,19 +1,20 @@
 <template>
     <section class="login-container">
-        <img id="bgBox" src="https://baotangguo.cn:8081/" />
-        <el-form size="large" ref="loginForm" status-icon class="login-form">
+        <img id="bgBox"
+            src="https://ssorz.cqbvc.edu.cn/imageserver/100004/ump/images/2020/04/29/1588122546756X9SjjyT.jpg" />
+        <el-form size="large" ref="loginForm" class="login-form">
             <el-form-item>
-                <h3 style="width: 100%">
-                    <svg-icon icon-class="sunny" />
-                    商院人力资源管理系统
+                <h3 style="width: 100%;display: flex;justify-content: flex-start;align-items: center;">
+                    <img src="/favicon.ico" alt="" style="object-fit: cover;width: 50px;margin-right: 15px;">
+                    <span>商院人力资源管理系统</span>
                 </h3>
             </el-form-item>
             <el-form-item prop="username" required>
-                <el-input class="input-box" tabindex="1" min="6" max="20" autocomplete="on">
+                <el-input class="input-box" tabindex="1" min="6" max="20" autocomplete="on" placeholder="请输入登录名">
                 </el-input>
             </el-form-item>
             <el-form-item prop="password" required>
-                <el-input tabindex="1" min="6" :max="20">
+                <el-input tabindex="1" min="6" :max="20" placeholder="请输入密码">
                 </el-input>
             </el-form-item>
             <el-button type="primary" style="width: 100%; margin-bottom: 30px">登录</el-button>
@@ -33,14 +34,6 @@ const store = useStore()
 </script>
 
 <style scoped>
-.login-container {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 #bgBox {
     z-index: -1;
     position: fixed;
@@ -50,6 +43,14 @@ const store = useStore()
     height: 100%;
     object-fit: cover;
     transition: opacity 1s, transform 0.25s, filter 0.25s;
+}
+
+.login-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .login-form {
@@ -62,6 +63,5 @@ const store = useStore()
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     overflow: hidden;
-    transition: color 0.25s, background-color 0.25s, box-shadow 0.25s, left 0.25s, opacity 0.25s, top 0.25s, width 0.25s;
 }
 </style>

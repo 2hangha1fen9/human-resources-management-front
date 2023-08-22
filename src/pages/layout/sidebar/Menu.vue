@@ -24,7 +24,9 @@
 
 <script setup>
 defineProps({
-    // eslint-disable-next-line no-undef
-    item
+    item: {
+        type: Object,
+        default: {}
+    }
 })
 </script>
