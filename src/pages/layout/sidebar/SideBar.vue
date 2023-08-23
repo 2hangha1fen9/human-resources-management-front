@@ -3,10 +3,7 @@
         <el-scrollbar max-height="100%">
             <el-menu router class="menu" :default-active="route.path" :collapse="sidebar.opened">
                 <el-menu-item index="/" class="logo" style="color: var(--el-text-color-primary); background-color: none">
-                    <el-icon>
-                        <!-- <svg-icon class="sub-el-icon" icon-class="sunny" /> -->
-                    </el-icon>
-                    <span>SunnyBlog</span>
+                    <span></span>
                 </el-menu-item>
                 <Menu v-for="route in routes" :item="route" :key="route.path"></Menu>
             </el-menu>
@@ -29,13 +26,6 @@ const router = useRouter()
 const routes = computed(() => router.options.routes)
 console.log(routes)
 
-onMounted(() => {
-    //响应式配置
-    addEventListener("resize", collspaseAdide)
-})
-
-//收起侧边栏
-collspaseAdide()
 const collspaseAdide = () => {
     if (document.documentElement.clientWidth <= 1200) {
         store.dispatch("app/setStatus", true)
@@ -43,6 +33,14 @@ const collspaseAdide = () => {
         store.dispatch("app/setStatus", false)
     }
 }
+
+//收起侧边栏
+collspaseAdide()
+
+onMounted(() => {
+    //响应式配置
+    addEventListener("resize", collspaseAdide)
+})
 
 onUnmounted(() => {
     removeEventListener("resize", collspaseAdide)

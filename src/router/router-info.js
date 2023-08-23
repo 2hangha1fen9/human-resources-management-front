@@ -6,13 +6,13 @@ export const ROUTERS = [
         component: Layout,
         name: "HRM",
         meta: {
-            title: "商院人力资源管理系统",
+            title: "主页",
             hidden: true,
         },
         children: [
             {
                 path: "/",
-                component: () => import("@/views/Home"),
+                component: () => import("@/pages/Home/index.vue"),
             },
         ],
     },

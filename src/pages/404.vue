@@ -11,8 +11,7 @@
                 <div class="bullshit__oops">OOPS!</div>
                 <div class="bullshit__headline">{{ message }}</div>
                 <div class="bullshit__info">
-                    Please check that the URL you entered is correct, or click
-                    the button below to return to the homepage.
+                    找不到此页面404
                 </div>
                 <a @click="router.back()" class="bullshit__return-home">Back</a>
             </div>
@@ -246,4 +245,5 @@ let message = ref("The webmaster said that you can not enter this page...");
             }
         }
     }
-}</style>
+}
+</style>
