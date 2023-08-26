@@ -1,5 +1,4 @@
 import router from "./index"
-import { start, close } from "@/utils/progress"
 import { ElMessage } from "element-plus"
 import store from "@/store/index"
 
@@ -7,11 +6,9 @@ import store from "@/store/index"
 const whiteList = ["/login"]
 
 router.beforeEach(async (to, from, next) => {
-    start() //开启进度条
     if (store.getters["identity/isValid"]) {
         //如果已经登录了则跳转
         next()
-        close()
     } else {
         if (whiteList.indexOf(to.path) !== -1) {
             next()
@@ -25,6 +22,4 @@ router.beforeEach(async (to, from, next) => {
     }
 })
 
-router.afterEach(() => {
-    close()
-})
+router.afterEach(() => {})

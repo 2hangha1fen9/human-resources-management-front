@@ -3,7 +3,10 @@
         <el-scrollbar max-height="100%">
             <el-menu router class="menu" :default-active="route.path" :collapse="sidebar.opened">
                 <el-menu-item index="/" class="logo" style="color: var(--el-text-color-primary); background-color: none">
-                    <span></span>
+                    <el-icon>
+                        <img src="/favicon.ico" style="object-fit: cover;width: 25px;" />
+                    </el-icon>
+                    <span>商院人力资源管理系统</span>
                 </el-menu-item>
                 <Menu v-for="route in routes" :item="route" :key="route.path"></Menu>
             </el-menu>
@@ -24,7 +27,6 @@ const route = useRoute()
 const router = useRouter()
 
 const routes = computed(() => router.options.routes)
-console.log(routes)
 
 const collspaseAdide = () => {
     if (document.documentElement.clientWidth <= 1200) {

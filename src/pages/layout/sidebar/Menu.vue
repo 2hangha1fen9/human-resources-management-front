@@ -2,6 +2,9 @@
     <!-- 如果路由有子级 -->
     <el-sub-menu v-if="item.children && item.children.length && !item.meta.hidden" :index="item.path">
         <template #title>
+            <el-icon>
+                <icon v-if="item.meta.icon" :name="item.meta.icon" />
+            </el-icon>
             <span>{{ item.meta.title }} </span>
         </template>
         <!-- 遍历子级 -->
@@ -10,6 +13,9 @@
     <!-- 路由没有子级 -->
     <el-menu-item v-else-if="!item.meta.hidden" :index="item.path">
         <template #title>
+            <el-icon>
+                <icon v-if="item.meta.icon" :name="item.meta.icon" />
+            </el-icon>
             <span>{{ item.meta.title }}</span>
         </template>
     </el-menu-item>

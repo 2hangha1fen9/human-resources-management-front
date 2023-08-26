@@ -6,7 +6,7 @@ import { ElMessage } from "element-plus"
 //创建axios实例
 const service = axios.create({
     baseURL: API, //api网关
-    timeout: 50000, //请求超时时间10s
+    timeout: 100000, //请求超时时间10s
 })
 
 //request拦截器
@@ -16,7 +16,7 @@ service.interceptors.request.use(
         //让每一个请求都带上jwt
         if (store.getters["identity/token"]) {
             if (config && config.headers) {
-                config.headers["access_token"] = `Bearer ${store.getters["identity/token"]}`
+                config.headers["access_token"] = `${store.getters["identity/token"]}`
             }
         } else {
             store.dispatch("identity/logout")
