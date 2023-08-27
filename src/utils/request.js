@@ -43,14 +43,12 @@ service.interceptors.response.use(
             })
             return Promise.reject("error")
         }
-
         return res
     },
     (error) => {
         close()
-        const res = error?.response?.data ?? error.message
         ElMessage({
-            message: "系统错误：" + res,
+            message: "系统错误：" + (error?.response?.data?.message ?? error.message),
             grouping: true,
             type: "error",
         })
