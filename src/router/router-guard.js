@@ -17,7 +17,6 @@ router.beforeEach(async (to, from, next) => {
             await store.dispatch("identity/logout")
             ElMessage.warning("凭证过期")
             next(`/login?redirect=${to.path}`)
-            close()
         }
     }
 })
