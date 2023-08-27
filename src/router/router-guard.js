@@ -15,7 +15,11 @@ router.beforeEach(async (to, from, next) => {
         } else {
             //清除所有信息跳转到登录页
             await store.dispatch("identity/logout")
-            ElMessage.warning("凭证过期")
+            ElMessage({
+                message: "凭证过期",
+                grouping: true,
+                type: "warning",
+            })
             next(`/login?redirect=${to.path}`)
         }
     }

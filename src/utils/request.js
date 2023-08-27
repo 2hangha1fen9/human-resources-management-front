@@ -2,6 +2,9 @@ import axios from "axios"
 import store from "@/store/index"
 import { start, close } from "@/utils/progress"
 import { ElMessage } from "element-plus"
+import { useRouter, useRoute } from "vue-router"
+const router = useRouter()
+const route = useRoute()
 
 //创建axios实例
 const service = axios.create({
@@ -45,13 +48,23 @@ service.interceptors.response.use(
         }
         return res
     },
-    (error) => {
+    async (error) => {
         close()
         ElMessage({
             message: "系统错误：" + (error?.response?.data?.message ?? error.message),
             grouping: true,
             type: "error",
         })
+        if (error.response.status == 401) {
+            //清除所有信息跳转到登录页
+            await store.dispatch("identity/logout")
+            ElMessage({
+                message: "凭证过期",
+                grouping: true,
+                type: "warning",
+            })
+            router.push(`/login?redirect=${route.path}`)
+        }
 
         return Promise.reject(error)
     }
