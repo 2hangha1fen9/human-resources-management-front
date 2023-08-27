@@ -18,7 +18,7 @@
             </el-form>
         </div>
         <div class="table-panel">
-            <el-table border v-loading="tableLoading" :data="userList" :height="tableHeight">
+            <el-table border v-loading="tableLoading" :data="userList" :height="tableHeight" show-overflow-tooltip>
                 <el-table-column prop="id" label="序号" width="65">
                     <template #default="scope">
                         {{ (query.pageNum - 1) * query.rows + scope.$index + 1 }}
@@ -61,6 +61,7 @@
 <script setup>
 import { ref, reactive, watch, onMounted, onUnmounted } from 'vue'
 import { post, put, del } from '@/utils/request'
+import { ElMessageBox } from 'element-plus'
 import EnumSelect from '@/components/EnumSelect.vue'
 import UserEdit from './UserEdit.vue'
 
@@ -99,9 +100,11 @@ const changeStatus = async (row) => {
     }
 }
 const deleteUser = async (row) => {
+
     if (row.id) {
         try {
-            await ElMessageBox.confirm(`确认删除用户 '${row.loginName}' ?'`)
+            await ElMessageBox.confirm(`确认删除用户 ${row.loginName} ?'`)
+            console.log(row.id)
             await del(`/user/deleteUser/${row.id}`)
             let index = userList.value.findIndex(i => i.id === row.id)
             userList.value.splice(index, 1)

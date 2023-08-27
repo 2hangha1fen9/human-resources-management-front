@@ -25,7 +25,7 @@ const isDashboard = routes => {
         return false
     }
     //不是主页添加根节点
-    return name.trim().toLocaleLowerCase() === "商院人力资源管理系统".toLocaleLowerCase()
+    return name.trim().toLocaleLowerCase() === "".toLocaleLowerCase()
 }
 
 const getBreadcrumb = () => {
@@ -34,7 +34,7 @@ const getBreadcrumb = () => {
     //取出第一判断是否是根元素,不是根元素添加根元素
     const first = matched[0]
     if (!isDashboard(first)) {
-        matched = [{ path: "/", meta: { title: "商院人力资源管理系统" } }].concat(matched)
+        matched = [{ path: "/", meta: { title: "" } }].concat(matched)
     }
     levelList.value = matched.filter((item) => item.meta && item.meta.title && item.meta.breadcrumb !== false)
 }

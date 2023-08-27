@@ -16,7 +16,7 @@ router.beforeEach(async (to, from, next) => {
             //清除所有信息跳转到登录页
             await store.dispatch("identity/logout")
             ElMessage({
-                message: "凭证过期",
+                message: "凭证过期,请重新登录",
                 grouping: true,
                 type: "warning",
             })

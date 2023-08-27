@@ -2,9 +2,7 @@ import axios from "axios"
 import store from "@/store/index"
 import { start, close } from "@/utils/progress"
 import { ElMessage } from "element-plus"
-import { useRouter, useRoute } from "vue-router"
-const router = useRouter()
-const route = useRoute()
+import router from "@/router/index"
 
 //创建axios实例
 const service = axios.create({
@@ -28,7 +26,6 @@ service.interceptors.request.use(
     },
     (error) => {
         start()
-        console.log(error)
         Promise.reject(error)
     }
 )
@@ -59,11 +56,11 @@ service.interceptors.response.use(
             //清除所有信息跳转到登录页
             await store.dispatch("identity/logout")
             ElMessage({
-                message: "凭证过期",
+                message: "凭证过期,请重新登录",
                 grouping: true,
                 type: "warning",
             })
-            router.push(`/login?redirect=${route.path}`)
+            router.push(`/login?redirect=${router.currentRoute._value.path}`)
         }
 
         return Promise.reject(error)

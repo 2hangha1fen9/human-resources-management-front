@@ -1,6 +1,5 @@
 <template>
     <el-select v-model="selected" :placeholder="props.placeholder" :size="props.size">
-        <el-option :value="props.allOptionValue" :label="props.allOptionLable">{{ props.allOptionLable }}</el-option>
         <el-option v-for="item in options" :key="item[props.keys]" :label="item[props.values]" :value="item[props.keys]" />
     </el-select>
 </template>
@@ -55,15 +54,25 @@ const emit = defineEmits(["change"])
 const options = ref([])
 const selected = ref({})
 
+
 const search = async () => {
     let res = await props.request(props.api, props.params)
-    options.value = res.data
+    options.value.push(...res.data)
 }
 
-watch(() => selected, (newVal, oldVal) => {
-    let option = options.find(i => i[props.keys] == newVal)
+watch(() => selected.value, (newVal, oldVal) => {
+    let option = options.value.find(i => i[props.keys] == newVal)
     emit("change", option)
+}, {
+    immediate: true
 })
+
+if (props.allOptionShow) {
+    let all = {}
+    all[props.keys] = props.allOptionValue
+    all[props.values] = props.allOptionLable
+    options.value.push(all)
+}
 search()
 </script>
 

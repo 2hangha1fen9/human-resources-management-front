@@ -1,7 +1,7 @@
 <template>
-    <el-form ref="userForm" label-width="100px" :model="user" :rules="userRules" v-loading="formLoading">
+    <el-form ref="userForm" label-width="100px" :model="userData" :rules="userRules" v-loading="formLoading">
         <el-form-item prop="loginName" label="登录名 :" required>
-            <el-input placeholder="请输入登录名" v-model="userData.loginName" />
+            <el-input placeholder="请输入登录名" v-model="userData.loginName" autocomplete="off" />
         </el-form-item>
         <el-form-item prop="password" label="密码 :">
             <el-input placeholder="设置新密码" v-model="userData.password" type="password" />
@@ -67,7 +67,6 @@ const save = async form => {
 if (props.userId > 0) {
     formLoading.value = true;
     get(`/user/GetUserById/${props.userId}`).then(res => {
-        console.log(res)
         userData.value = res.data
     }).finally(() => {
         formLoading.value = false;
