@@ -11,7 +11,7 @@
             <span style="margin-right: 10px;">
                 欢迎您,{{ user.loginName }}
             </span>
-            <el-button size="small" @click="store.dispatch('identity/logout'); router.push('/login')">退出登录</el-button>
+            <el-button size="small" @click="logout">退出登录</el-button>
         </div>
     </nav>
 </template>
@@ -36,6 +36,10 @@ const user = computed(() => store.getters["identity/user"])
 //切换方法
 const toggleSideBar = () => {
     store.dispatch("app/toggleSideBar")
+}
+const logout = () => {
+    store.dispatch('identity/logout');
+    window.location.href = '/login' //刷新浏览器而不是路由,确保遗留数据能被刷新
 }
 
 //监听黑暗模式变化
