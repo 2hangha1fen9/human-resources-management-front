@@ -1,13 +1,12 @@
-import Layout from "@/pages/layout/index.vue";
+import Layout from "@/pages/layout/index.vue"
 
 //静态路由表
 const ROUTERS = [
     {
         path: "/",
         component: Layout,
-        name: "HRM",
+        name: "主页",
         meta: {
-            title: "主页",
             hidden: true,
         },
         children: [
@@ -21,31 +20,31 @@ const ROUTERS = [
         path: "/system",
         component: Layout,
         redirect: "/system/user",
+        name: "系统管理",
         meta: {
-            title: "系统管理",
             icon: "system",
         },
         children: [
             {
                 path: "/system/user",
+                name: "用户管理",
                 meta: {
-                    title: "用户管理",
                     icon: "user",
                 },
                 component: () => import("@/pages/system/user/Index.vue"),
             },
             {
                 path: "/system/role",
+                name: "角色管理",
                 meta: {
-                    title: "角色管理",
                     icon: "role",
                 },
                 component: () => import("@/pages/system/role/Index.vue"),
             },
             {
                 path: "/system/permission",
+                name: "权限管理",
                 meta: {
-                    title: "权限管理",
                     icon: "permission",
                 },
                 component: () => import("@/pages/system/permission/Index.vue"),
@@ -56,53 +55,53 @@ const ROUTERS = [
         path: "/attendance",
         component: Layout,
         redirect: "/attendance/absence",
+        name: "考勤申请",
         meta: {
-            title: "考勤申请",
             icon: "attendance",
         },
         children: [
             {
                 path: "/attendance/absence",
+                name: "缺勤申请",
                 meta: {
-                    title: "缺勤申请",
                     icon: "absence",
                 },
                 component: () => import("@/pages/attendance/absence/Index.vue"),
             },
             {
                 path: "/attendance/businesstrip",
+                name: "出差申请",
                 meta: {
-                    title: "出差申请",
                     icon: "businesstrip",
                 },
                 component: () => import("@/pages/attendance/businesstrip/Index.vue"),
             },
             {
                 path: "/attendance/compensatory",
+                name: "调休申请",
                 meta: {
-                    title: "调休申请",
                     icon: "compensatory",
                 },
                 component: () => import("@/pages/attendance/compensatory/Index.vue"),
             },
             {
                 path: "/attendance/fieldwork",
+                name: "外勤申请",
                 meta: {
-                    title: "外勤申请",
                     icon: "fieldwork",
                 },
                 component: () => import("@/pages/attendance/fieldwork/Index.vue"),
             },
             {
                 path: "/attendance/vacation",
+                name: "休假申请",
                 meta: {
-                    title: "休假申请",
                     icon: "vacation",
                 },
                 component: () => import("@/pages/attendance/vacation/Index.vue"),
             },
         ],
     },
-];
+]
 
-export default ROUTERS;
+export default ROUTERS
