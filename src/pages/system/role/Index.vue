@@ -54,7 +54,7 @@
                 <RoleEdit :roleId="currentRole.id"
                     @onClose="() => { currentRole = {}; roleEditVisible = false; search() }" />
             </el-dialog>
-            <el-dialog v-model="bindEditVisible" destroy-on-close title="权限绑定" style="width: 1000px; max-width: 100%">
+            <el-dialog v-model="bindEditVisible" destroy-on-close title="权限绑定" style="width: 1500px; max-width: 100%">
                 <RolePermissionBind :role="currentRole" @onClose="() => { currentRole = {}; bindEditVisible = false }" />
             </el-dialog>
         </div>
@@ -126,3 +126,17 @@ onUnmounted(() => {
 
 search()
 </script>
+
+<style>
+.el-transfer-panel {
+    width: 300px;
+}
+
+.el-transfer-panel__body {
+    height: 400px;
+}
+
+.el-transfer-panel__list {
+    height: 400px;
+}
+</style>
