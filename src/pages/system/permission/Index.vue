@@ -109,6 +109,9 @@ const toHierarchy = (data) => {
 const search = async () => {
     try {
         tableLoading.value = true
+        if (query.type == 2) {
+            query.rows = 0
+        }
         let res = await post("/permission/QueryPermissionByPage", query)
         if (query.type == 2) {
             permissionList.value = toHierarchy(res.data)
