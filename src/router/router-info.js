@@ -1,6 +1,7 @@
-import Layout from "@/pages/layout/index.vue"
+import Layout from "@/pages/layout/index.vue";
+
 //静态路由表
-export const ROUTERS = [
+const ROUTERS = [
     {
         path: "/",
         component: Layout,
@@ -102,4 +103,6 @@ export const ROUTERS = [
             },
         ],
     },
-]
+];
+
+export default ROUTERS;

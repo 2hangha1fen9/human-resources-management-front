@@ -27,12 +27,9 @@
             </el-form>
         </div>
         <div class="table-panel">
-            <el-table border v-loading="tableLoading" :data="permissionList" :height="tableHeight" show-overflow-tooltip>
-                <el-table-column prop="id" label="序号" width="65">
-                    <template #default="scope">
-                        {{ (query.pageNum - 1) * query.rows + scope.$index + 1 }}
-                    </template>
-                </el-table-column>
+            <el-table border v-loading="tableLoading" :data="permissionList" :height="tableHeight"
+                :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" row-key="id" default-expand-all
+                show-overflow-tooltip>
                 <el-table-column prop="name" label="权限名" width="200" />
                 <el-table-column prop="resource" :label="`${resourceName}`" width="300" />
                 <el-table-column prop="typeStr" label="资源类型" width="100" />
@@ -89,11 +86,36 @@ const permissionEditVisible = ref(false)
 const currentPermissionId = ref(0)
 const resourceName = ref("API路径")
 
+//针对api路径进行层级优化
+const toHierarchy = (data) => {
+    const map = new Map();
+    const result = [];
+
+    data.forEach((item) => {
+        map.set(item.resource, { ...item, children: [] });
+    });
+
+    data.forEach((item) => {
+        const parentResource = item.resource.substring(0, item.resource.lastIndexOf('/'));
+        if (parentResource === '') {
+            result.push(map.get(item.resource));
+        } else if (map.has(parentResource)) {
+            map.get(parentResource).children.push(map.get(item.resource));
+        }
+    });
+
+    return result;
+}
 const search = async () => {
     try {
         tableLoading.value = true
         let res = await post("/permission/QueryPermissionByPage", query)
-        permissionList.value = res.data
+        if (query.type == 2) {
+            permissionList.value = toHierarchy(res.data)
+        }
+        else {
+            permissionList.value = res.data
+        }
         recordCount.value = res.recordCount
     } finally {
         tableLoading.value = false

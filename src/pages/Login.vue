@@ -62,7 +62,7 @@ const login = async form => {
         //执行登录
         const result = await post("/user/login", loginData)
         //保存用户token
-        store.dispatch('identity/login', result.data)
+        await store.dispatch('identity/login', result.data)
         //跳转主页
         router.push({ path: redirect.value || "/" })
     } finally {

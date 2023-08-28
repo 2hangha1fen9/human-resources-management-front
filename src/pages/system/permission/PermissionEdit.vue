@@ -11,7 +11,7 @@
         </el-form-item>
         <el-form-item prop="type" label="资源类型 :" required>
             <EnumSelect size="small" api="/enum/Get/PermissionType" v-model="permissionData.type" @change="onTypeChange"
-                allOptionLable="请选择资源类型" :allOptionValue="null" :disabled="permissionData.type === 1" />
+                allOptionLable="请选择资源类型" :allOptionValue="null" />
         </el-form-item>
         <el-form-item prop="isPublic" label="公共权限 :">
             <el-switch v-model="permissionData.isPublic" inline-prompt active-text="是" :active-value="1" inactive-text="否"
@@ -44,7 +44,7 @@ const formLoading = ref(false)
 const buttonLoading = ref(false)
 const permissionForm = ref()
 const permissionData = ref({})
-const resourceName = ref("API路径")
+const resourceName = ref("前端菜单")
 const permissionRules = {
     name: [
         { required: true, message: "请输入权限名", trigger: 'blur' }
@@ -78,7 +78,7 @@ const onTypeChange = option => {
         resourceName.value = option.desction
     }
     else {
-        resourceName.value = "API路径"
+        resourceName.value = "前端菜单"
     }
 }
 
@@ -96,7 +96,7 @@ else {
         id: props.permissionId,
         name: "",
         resource: "",
-        type: null,
+        type: 2,
         status: 1,
         isPublic: 2
     }

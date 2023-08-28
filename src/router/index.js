@@ -1,5 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router"
-import { ROUTERS } from "./router-info"
+import { createRouter, createWebHistory } from "vue-router";
 
 //创建路由
 const router = createRouter({
@@ -28,9 +27,7 @@ const router = createRouter({
                 hidden: true,
             },
         },
-        //加载路由表
-        ...ROUTERS,
     ],
-})
+});
 
-export default router
+export default router;

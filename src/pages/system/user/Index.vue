@@ -13,7 +13,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button size="small" type="success"
-                        @click="() => { currentUserId = 0; userEditVisible = true }">添加</el-button>
+                        @click="() => { currentUser = {}; userEditVisible = true }">添加</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -37,8 +37,10 @@
                 <el-table-column fixed="right" label="操作">
                     <template #default="scope">
                         <el-button-group>
+                            <el-button type="success" size="small"
+                                @click="() => { currentUser = scope.row; bindEditVisible = true }">绑定角色</el-button>
                             <el-button type="primary" size="small"
-                                @click="() => { currentUserId = scope.row.id; userEditVisible = true }">修改</el-button>
+                                @click="() => { currentUser = scope.row; userEditVisible = true }">修改</el-button>
                             <el-button type="danger" size="small" @click="deleteUser(scope.row)">删除</el-button>
                         </el-button-group>
                     </template>
@@ -51,8 +53,11 @@
         </div>
         <div class="modal">
             <el-dialog v-model="userEditVisible" destroy-on-close title="用户编辑" style="width: 600px; max-width: 100%">
-                <UserEdit :userId="currentUserId"
-                    @onClose="() => { currentUserId = 0; userEditVisible = false; search() }" />
+                <UserEdit :userId="currentUser.id"
+                    @onClose="() => { currentUser = {}; userEditVisible = false; search() }" />
+            </el-dialog>
+            <el-dialog v-model="bindEditVisible" destroy-on-close title="角色绑定" style="width: 800px; max-width: 100%">
+                <UserRoleBind :user="currentUser" @onClose="() => { currentUser = {}; bindEditVisible = false }" />
             </el-dialog>
         </div>
     </div>
@@ -64,6 +69,7 @@ import { post, put, del } from '@/utils/request'
 import { ElMessageBox } from 'element-plus'
 import EnumSelect from '@/components/EnumSelect.vue'
 import UserEdit from './UserEdit.vue'
+import UserRoleBind from './UserRoleBind.vue'
 
 const query = reactive({
     loginName: "",
@@ -76,7 +82,8 @@ const tableLoading = ref(false)
 const userList = ref([])
 const recordCount = ref(0)
 const userEditVisible = ref(false)
-const currentUserId = ref(0)
+const bindEditVisible = ref(false)
+const currentUser = ref({})
 
 const search = async () => {
     try {
