@@ -1,7 +1,7 @@
 <template>
     <el-card class="dashboard-card">
         <template #header>
-            <span>工龄汇总</span>
+            <span>年龄汇总</span>
         </template>
         <div ref="view" class="echart"></div>
     </el-card>
@@ -54,7 +54,7 @@ const initChart = async () => {
         ],
     }
     chartInstance.setOption(chartOption)
-    let res = await get('/employee/GetSenioritySummary')
+    let res = await get('/employee/GetAgeSummary')
     chartInstance.setOption({
         xAxis: {
             data: res.data.map((i) => i.category),

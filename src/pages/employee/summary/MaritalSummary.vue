@@ -1,7 +1,7 @@
 <template>
     <el-card class="dashboard-card">
         <template #header>
-            <span>工龄汇总</span>
+            <span>婚姻汇总</span>
         </template>
         <div ref="view" class="echart"></div>
     </el-card>
@@ -23,45 +23,31 @@ const initChart = async () => {
     chartInstance.showLoading()
     chartOption = {
         tooltip: {
-            //提示框触发位置，数据轴
-            trigger: "axis",
+            trigger: 'item'
         },
-        dataZoom: [
-            {
-                type: "inside",
-            },
-        ],
-        xAxis: {
-            //x轴数据
-            name: "工龄",
-            type: "category",
-            boundaryGap: true,
-            data: [],
-        },
-        yAxis: {
-            //y轴数据
-            name: "人数",
-            type: "value",
-            minInterval: 1,
+        legend: {
+            orient: 'vertical',
+            left: 'left'
         },
         series: [
-            //数据值
             {
-                name: "人数",
-                type: "bar",
-                data: [], //数据
-            },
-        ],
+                name: '婚姻状态',
+                type: 'pie',
+                radius: '70%',
+                avoidLabelOverlap: false,
+                label: {
+                    show: true,
+                },
+                data: []
+            }
+        ]
     }
     chartInstance.setOption(chartOption)
-    let res = await get('/employee/GetSenioritySummary')
+    let res = await get('/employee/GetMaritalSummary')
     chartInstance.setOption({
-        xAxis: {
-            data: res.data.map((i) => i.category),
-        },
         series: [
             {
-                data: res.data.map((i) => i.number),
+                data: res.data.map((i) => ({ value: i.number, name: i.category })),
             },
         ],
     })

@@ -1,7 +1,8 @@
 <template>
     <el-form ref="employeeForm" label-width="100px" :model="employeeData" :rules="employeeRules" v-loading="formLoading">
         <el-form-item prop="workNum" label="工号 :" required>
-            <el-input placeholder="请输入工号" v-model="employeeData.workNum" autocomplete="off" />
+            <el-input placeholder="请输入工号" v-model="employeeData.workNum" autocomplete="off"
+                :disabled="props.employeeId > 0" />
         </el-form-item>
         <el-form-item prop="name" label="姓名 :" required>
             <el-input placeholder="请输入姓名" v-model="employeeData.name" autocomplete="off" />
