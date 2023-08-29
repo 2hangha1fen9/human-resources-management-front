@@ -1,7 +1,6 @@
 <template>
     <section class="login-container">
-        <img id="bgBox"
-            src="https://ssorz.cqbvc.edu.cn/imageserver/100004/ump/images/2020/04/29/1588122546756X9SjjyT.jpg" />
+        <router-link to="/identity/forget" :replace="true" class="forget-btn">忘记密码</router-link>
         <el-form size="large" ref="loginForm" class="login-form" :model="loginData" :rules="loginDataRules"
             @keyup.enter="login(loginForm)">
             <el-form-item>
@@ -84,23 +83,12 @@ watch(
 </script>
 
 <style scoped>
-#bgBox {
-    z-index: -1;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: opacity 1s, transform 0.25s, filter 0.25s;
-}
-
 .login-container {
-    width: 100%;
-    height: 100vh;
+    max-width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .login-form {
@@ -113,5 +101,27 @@ watch(
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     overflow: hidden;
+}
+
+.forget-btn {
+    z-index: 9;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 0.3em;
+    color: var(--el-color-white);
+    background-color: var(--el-mask-color-extra-light);
+    padding: 5px 15px 5px 15px;
+    backdrop-filter: blur(20px);
+    text-decoration: none;
+}
+
+.forget-btn {
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.forget-btn:hover {
+    background-color: var(--el-mask-color);
 }
 </style>
