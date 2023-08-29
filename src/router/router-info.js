@@ -1,4 +1,4 @@
-import Layout from "@/pages/layout/index.vue"
+import Layout from "@/pages/layout/index.vue";
 
 //静态路由表
 const ROUTERS = [
@@ -178,6 +178,22 @@ const ROUTERS = [
                 },
                 component: () => import("@/pages/employee/summary/Index.vue"),
             },
+            {
+                path: "/employee/department",
+                name: "部门管理",
+                meta: {
+                    icon: "department",
+                },
+                component: () => import("@/pages/employee/department/Index.vue"),
+            },
+            {
+                path: "/employee/position",
+                name: "岗位管理",
+                meta: {
+                    icon: "position",
+                },
+                component: () => import("@/pages/employee/position/Index.vue"),
+            },
         ],
     },
     {
@@ -207,6 +223,6 @@ const ROUTERS = [
             },
         ],
     },
-]
+];
 
-export default ROUTERS
+export default ROUTERS;
