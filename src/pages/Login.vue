@@ -63,6 +63,8 @@ const login = async form => {
         const result = await post("/user/login", loginData)
         //保存用户token
         await store.dispatch('identity/login', result.data)
+        //初始化路由
+        await store.dispatch('identity/initRoute')
         //跳转主页
         router.push({ path: redirect.value || "/" })
     } finally {

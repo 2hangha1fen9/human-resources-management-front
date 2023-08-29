@@ -5,7 +5,7 @@
             <el-icon>
                 <icon v-if="item.meta.icon" :name="item.meta.icon" />
             </el-icon>
-            <span>{{ item.meta.title }} </span>
+            <span>{{ item.name }} </span>
         </template>
         <!-- 遍历子级 -->
         <Menu v-for="chlid in item.children" :item="chlid" :key="chlid.path"></Menu>
@@ -16,7 +16,7 @@
             <el-icon>
                 <icon v-if="item.meta.icon" :name="item.meta.icon" />
             </el-icon>
-            <span>{{ item.meta.title }}</span>
+            <span>{{ item.name }}</span>
         </template>
     </el-menu-item>
 </template>

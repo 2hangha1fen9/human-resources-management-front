@@ -47,6 +47,7 @@ onMounted(() => {
 onUnmounted(() => {
     removeEventListener("resize", collspaseAdide)
 })
+
 </script>
 
 <style scoped>
