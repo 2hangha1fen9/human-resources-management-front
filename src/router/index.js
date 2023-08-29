@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-
+import ROUTERS from '@/router/router-info'
 //创建路由
 const router = createRouter({
     history: createWebHistory(),
@@ -26,8 +26,9 @@ const router = createRouter({
             meta: {
                 hidden: true,
             },
-        },
+        }, ...ROUTERS
     ],
+   
 });
 
 export default router;
