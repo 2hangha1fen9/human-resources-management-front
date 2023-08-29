@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, createRouterMatcher } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 
 //基础路由
 export const baseRoutes = [
