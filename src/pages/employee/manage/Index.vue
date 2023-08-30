@@ -142,8 +142,7 @@ const deleteEmployee = async (row) => {
 const exportEmployee = async () => {
     let res = await download('/employee/ExportEmployeeToExcel', 'post', query)
     // 获取Content-Disposition响应头
-    const contentDisposition = res.headers['Content-Disposition'];
-    console.log(res.headers)
+    const contentDisposition = res.headers['content-disposition'];
     // 使用正则表达式提取文件名
     const fileNameMatch = contentDisposition.match(/filename="(.+)"/);
     const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : '';
