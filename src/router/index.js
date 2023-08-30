@@ -1,14 +1,25 @@
-import { createRouter, createWebHistory, createRouterMatcher } from "vue-router"
+import { createRouter, createWebHistory } from "vue-router"
 
 //基础路由
 export const baseRoutes = [
     {
-        path: "/login",
-        component: () => import("@/pages/Login.vue"),
+        path: "/identity",
+        component: () => import("@/pages/identity/Index.vue"),
+        redirect: "/identity/login",
         meta: {
             title: "商院人力资源管理系统",
             hidden: true,
         },
+        children: [
+            {
+                path: "/identity/login",
+                component: () => import("@/pages/identity/Login.vue"),
+            },
+            {
+                path: "/identity/forget",
+                component: () => import("@/pages/identity/ForgetPassword.vue"),
+            },
+        ],
     },
     {
         path: "/404",

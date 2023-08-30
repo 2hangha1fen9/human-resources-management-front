@@ -60,7 +60,7 @@ service.interceptors.response.use(
                 grouping: true,
                 type: "warning",
             })
-            router.push(`/login?redirect=${router.currentRoute._value.path}`)
+            router.push(`/login`)
         }
 
         return Promise.reject(error)
