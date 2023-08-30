@@ -53,7 +53,7 @@
         </div>
         <div class="modal">
             <el-dialog v-model="userEditVisible" destroy-on-close title="用户编辑" style="width: 600px; max-width: 100%">
-                <UserEdit :userId="currentUser.id"
+                <UserEdit :userId="currentUser.id || 0"
                     @onClose="() => { currentUser = {}; userEditVisible = false; search() }" />
             </el-dialog>
             <el-dialog v-model="bindEditVisible" destroy-on-close title="角色绑定" style="width: 800px; max-width: 100%">

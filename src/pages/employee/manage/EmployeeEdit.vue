@@ -18,7 +18,7 @@
             <el-input placeholder="请输入手机号" v-model="employeeData.phone" autocomplete="off" />
         </el-form-item>
         <el-form-item prop="hireDate" label="入职日期 :" required>
-            <el-date-picker v-model="employeeData.hireDate" type="date" placeholder="出生日期" format="YYYY-MM-DD"
+            <el-date-picker v-model="employeeData.hireDate" type="date" placeholder="入职日期" format="YYYY-MM-DD"
                 value-format="YYYY-MM-DD" />
         </el-form-item>
         <el-form-item prop="positionId" label="岗位 :" required>
@@ -60,6 +60,10 @@
         <el-form-item prop="status" label="状态 :">
             <el-switch v-model="employeeData.status" inline-prompt active-text="启用" :active-value="1" inactive-text="禁用"
                 :inactive-value="2" />
+            <el-tooltip class="box-item" effect="dark" content="创建默认登陆账号,账号密码均为工号" placement="top">
+                <el-checkbox v-model="employeeData.createUser" label="允许登陆" style="margin-left:10px"
+                    v-if="props.employeeId === 0"></el-checkbox>
+            </el-tooltip>
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="save(employeeForm)" :loading="buttonLoading">提交</el-button>
@@ -157,7 +161,8 @@ else {
         positionId: null,
         departmentId: null,
         positionLevel: null,
-        status: 1
+        status: 1,
+        createUser: false
     }
 }
 </script>

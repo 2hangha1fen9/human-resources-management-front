@@ -38,6 +38,9 @@
                     <el-button size="small" type="success"
                         @click="() => { currentEmployee = {}; employeeEditVisible = true }">添加</el-button>
                 </el-form-item>
+                <el-form-item>
+                    <el-button size="small" type="success" @click="exportEmployee">导出到Excel</el-button>
+                </el-form-item>
             </el-form>
         </div>
         <div class="table-panel">
@@ -80,7 +83,7 @@
         </div>
         <div class="modal">
             <el-dialog v-model="employeeEditVisible" destroy-on-close title="员工编辑" style="width: 600px; max-width: 100%">
-                <EmployeeEdit :employeeId="currentEmployee.id"
+                <EmployeeEdit :employeeId="currentEmployee.id || 0"
                     @onClose="() => { currentEmployee = {}; employeeEditVisible = false; search() }" />
             </el-dialog>
         </div>
@@ -89,7 +92,7 @@
 
 <script setup>
 import { ref, reactive, watch, onMounted, onUnmounted } from 'vue'
-import { post, del } from '@/utils/request'
+import { post, del, download } from '@/utils/request'
 import { ElMessageBox } from 'element-plus'
 import EnumSelect from '@/components/EnumSelect.vue'
 import EmployeeEdit from './EmployeeEdit.vue'
@@ -135,6 +138,29 @@ const deleteEmployee = async (row) => {
         }
         catch (e) { }
     }
+}
+const exportEmployee = async () => {
+    let res = await download('/employee/ExportEmployeeToExcel', 'post', query)
+    // 获取Content-Disposition响应头
+    const contentDisposition = res.headers['Content-Disposition'];
+    console.log(res.headers)
+    // 使用正则表达式提取文件名
+    const fileNameMatch = contentDisposition.match(/filename="(.+)"/);
+    const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : '';
+    // 将响应数据转换为Blob
+    const blob = new Blob([res.data], { type: res.headers['content-type'] });
+    // 创建一个隐藏的a标签用于下载文件
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+
+    // 触发下载
+    link.click();
+
+    // 清理DOM
+    document.body.removeChild(link);
 }
 
 const setTableHeight = () => {
