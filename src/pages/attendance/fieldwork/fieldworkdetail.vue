@@ -1,53 +1,67 @@
 <template>
-    <el-form ref="fieldworkdetailForm" label-width="140px" :model="fieldworkdetailData" v-loading="formLoading">
-        <el-form-item prop="fieldworkDateTimeandcheckInTypeStr" label="外勤日期 :">
-            <el-button style="width: 500px;display: -webkit-box;background-color: var(--el-disabled-bg-color);" disabled>{{ fieldworkdetailData.beginDate+"至"+fieldworkdetailData.endDate }}</el-button>
-        </el-form-item>
-        <el-form-item prop="duration" label="合计天数 :">
-            <el-input disabled v-model="fieldworkdetailData.duration" />
-        </el-form-item>
-        <el-form-item prop="address" label="外勤目的地 :">
-            <el-input disabled v-model="fieldworkdetailData.address" />
-        </el-form-item>
-        <el-form-item prop="auditStatusStr" label="审核状态 :">
-            <el-input disabled v-model="fieldworkdetailData.auditStatusStr" />
-        </el-form-item>
-        <el-form-item prop="createTime" label="上报时间 :">
-            <el-input disabled v-model="fieldworkdetailData.createTime" />
-        </el-form-item>
-        <el-form-item prop="updateTime" label="更新时间 :">
-            <el-input disabled v-model="fieldworkdetailData.updateTime" />
-        </el-form-item>
-        <el-form-item prop="reason" label="外勤事由 :">
-            <el-input type="textarea" disabled  :autosize="{ minRows: 1, maxRows: 2}" resize='none' v-model="fieldworkdetailData.reason" />
-        </el-form-item>
-        <el-form-item prop="auditResult" label="审核意见 :" v-show="isshowAuditResult">
-            <el-input  type="textarea" disabled :autosize="{ minRows: 1, maxRows: 2}"  resize='none' v-model="fieldworkdetailData.auditResult" />
-        </el-form-item>
-    </el-form>
-    <el-button style="margin-left: 500px;margin-bottom;:-26px" type="primary" @click="emit('onClose')">返回</el-button>
+    <el-descriptions v-loading="formLoading" border :column="1">
+        <el-descriptions-item label="外勤日期 :" min-width="10px">
+            {{ moment(fieldworkdetailData.beginDate).format('YYYY-MM-DD') + "至" +
+                moment(fieldworkdetailData.endDate).format('YYYY-MM-DD') }}
+        </el-descriptions-item>
+        <el-descriptions-item label="合计天数 :">
+            {{ fieldworkdetailData.duration }}
+        </el-descriptions-item>
+        <el-descriptions-item label="目的地 :">
+            {{ fieldworkdetailData.address }}
+        </el-descriptions-item>
+        <el-descriptions-item label="审核状态 :">
+            {{ fieldworkdetailData.auditStatusStr }}
+        </el-descriptions-item>
+        <el-descriptions-item label="上报时间 :">
+            {{ fieldworkdetailData.createTime }}
+        </el-descriptions-item>
+        <el-descriptions-item label="更新时间 :">
+            {{ fieldworkdetailData.updateTime }}
+        </el-descriptions-item>
+        <el-descriptions-item label="外勤事由 :">
+            {{ fieldworkdetailData.reason }}
+        </el-descriptions-item>
+        <el-descriptions-item label="审核意见 :">
+            {{ fieldworkdetailData.auditResult }}
+        </el-descriptions-item>
+    </el-descriptions>
+    <el-timeline style="margin-top:30px">
+        <el-timeline-item v-for="(node, index) in fieldworkdetailData.auditNode" :key="index" :timestamp="node.auditTime"
+            :color="stateColor[node.auditStatus]">
+            <div>
+                <p>{{ node.roleName }} {{ node.userName }} [{{ node.auditStatusStr }}]</p>
+                <p>
+                    审核结果: {{ node.auditResult }}
+                </p>
+            </div>
+        </el-timeline-item>
+    </el-timeline>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { get, post, put } from "@/utils/request"
 import { ElMessage } from 'element-plus';
+import moment from 'moment';
+
 const props = defineProps({
     id: Number,
     default: 0
 })
 const emit = defineEmits(['onClose'])
-
+const stateColor = {
+    1: "#d1dbe5",
+    2: "#67c23a",
+    3: "#f56c6c",
+}
 const formLoading = ref(false)
-const fieldworkdetailForm = ref()
 const fieldworkdetailData = ref({})
-const isshowAuditResult = ref(false)
 
 if (props.id > 0) {
     formLoading.value = true;
     post(`/fieldWorkapply/GetFieldWorkById/${props.id}`).then(res => {
         fieldworkdetailData.value = res.data
-        if(fieldworkdetailData.value.auditResult!=null){isshowAuditResult.value=true}
     }).finally(() => {
         formLoading.value = false;
     })

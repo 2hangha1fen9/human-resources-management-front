@@ -1,28 +1,38 @@
 <template>
-    <el-form ref="absencedetailForm" label-width="120px" :model="absencedetailData" v-loading="formLoading">
-        <el-form-item prop="absenceDateTimeandcheckInTypeStr" label="缺打考勤时间 :">
-            <el-button style="width: 500px;display: -webkit-box;background-color: var(--el-disabled-bg-color);" disabled>{{absencedetailData.absenceDateTime+absencedetailData.checkInTypeStr}}</el-button>
-        </el-form-item>
-        <el-form-item prop="prover" label="证明人 :">
-            <el-input disabled v-model="absencedetailData.prover" />
-        </el-form-item>
-        <el-form-item prop="auditStatusStr" label="审核状态 :">
-            <el-input disabled v-model="absencedetailData.auditStatusStr" />
-        </el-form-item>
-        <el-form-item prop="createTime" label="上报时间 :">
-            <el-input disabled v-model="absencedetailData.createTime" />
-        </el-form-item>
-        <el-form-item prop="updateTime" label="更新时间 :">
-            <el-input disabled v-model="absencedetailData.updateTime" />
-        </el-form-item>
-        <el-form-item prop="reason" label="缺打事由 :">
-            <el-input type="textarea" disabled  :autosize="{ minRows: 1, maxRows: 2}" resize='none' v-model="absencedetailData.reason" />
-        </el-form-item>
-        <el-form-item prop="auditResult" label="审核意见 :" v-show="isshowAuditResult">
-            <el-input  type="textarea" disabled :autosize="{ minRows: 1, maxRows: 2}"  resize='none' v-model="absencedetailData.auditResult" />
-        </el-form-item>
-    </el-form>
-    <el-button style="margin-left: 500px;margin-bottom;:-26px" type="primary" @click="emit('onClose')">返回</el-button>
+    <el-descriptions v-loading="formLoading" border :column="1">
+        <el-descriptions-item label="缺打考勤时间 :" min-width="10px">
+            {{ absencedetailData.absenceDateTime }}[{{ absencedetailData.checkInTypeStr }}]
+        </el-descriptions-item>
+        <el-descriptions-item label="证明人 :">
+            {{ absencedetailData.prover }}
+        </el-descriptions-item>
+        <el-descriptions-item label="审核状态 :">
+            {{ absencedetailData.auditStatusStr }}
+        </el-descriptions-item>
+        <el-descriptions-item label="上报时间 :">
+            {{ absencedetailData.createTime }}
+        </el-descriptions-item>
+        <el-descriptions-item label="更新时间 :">
+            {{ absencedetailData.updateTime }}
+        </el-descriptions-item>
+        <el-descriptions-item label="缺打事由 :">
+            {{ absencedetailData.reason }}
+        </el-descriptions-item>
+        <el-descriptions-item label="审核意见 :">
+            {{ absencedetailData.auditResult }}
+        </el-descriptions-item>
+    </el-descriptions>
+    <el-timeline style="margin-top:30px">
+        <el-timeline-item v-for="(node, index) in absencedetailData.auditNode" :key="index" :timestamp="node.auditTime"
+            :color="stateColor[node.auditStatus]">
+            <div>
+                <p>{{ node.roleName }} {{ node.userName }} [{{ node.auditStatusStr }}]</p>
+                <p>
+                    审核结果: {{ node.auditResult }}
+                </p>
+            </div>
+        </el-timeline-item>
+    </el-timeline>
 </template>
 
 <script setup>
@@ -35,16 +45,18 @@ const props = defineProps({
 })
 const emit = defineEmits(['onClose'])
 
+const stateColor = {
+    1: "#d1dbe5",
+    2: "#67c23a",
+    3: "#f56c6c",
+}
 const formLoading = ref(false)
-const absencedetailForm = ref()
 const absencedetailData = ref({})
-const isshowAuditResult = ref(false)
 
 if (props.id > 0) {
     formLoading.value = true;
     post(`/absenceapply/GetAbsenceById/${props.id}`).then(res => {
         absencedetailData.value = res.data
-        if(absencedetailData.value.auditResult!=null){isshowAuditResult.value=true}
     }).finally(() => {
         formLoading.value = false;
     })
