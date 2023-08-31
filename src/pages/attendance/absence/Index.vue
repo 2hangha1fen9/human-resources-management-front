@@ -34,7 +34,13 @@
                 </el-table-column>
                 <el-table-column prop="reason" label="缺打事由" width="220"/>
                 <el-table-column prop="prover" label="证明人" width="100"/>
-                <el-table-column prop="auditStatusStr" label="审核状态" width="100"/>
+                <el-table-column prop="auditStatusStr" label="审核状态" width="100">
+                    <template #default="scope">
+                        <el-text type="success" v-if="scope.row.auditStatus==2">{{scope.row.auditStatusStr}}</el-text>
+                        <el-text type="danger" v-else-if="scope.row.auditStatus==3">{{scope.row.auditStatusStr}}</el-text>
+                        <el-text type="primary" v-else>{{scope.row.auditStatusStr}}</el-text>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="createTime" label="上报时间" width="200" />
                 <el-table-column prop="updateTime" label="更新时间" width="200" />
                 <el-table-column fixed="right" label="操作">
