@@ -1,28 +1,25 @@
 <template>
-    <el-descriptions v-loading="formLoading" :column="1" border>
-        <el-descriptions-item prop="vacationDateTimeandcheckInTypeStr" label="休假日期 :">
+    <el-descriptions v-loading="formLoading" :column="2" border>
+        <el-descriptions-item label="休假日期" :span="2">
             {{ moment(vacationdetailData.beginDate).format('YYYY-MM-DD') + "至" +
-                moment(vacationdetailData.endDate).format('YYYY-MM-DD') }}
+                moment(vacationdetailData.endDate).format('YYYY-MM-DD') }}({{ vacationdetailData.duration }})
         </el-descriptions-item>
-        <el-descriptions-item prop="duration" label="合计天数 :">
-            {{ vacationdetailData.duration }}
-        </el-descriptions-item>
-        <el-descriptions-item prop="vacationTypeStr" label="休假类型 :">
+        <el-descriptions-item label="休假类型">
             {{ vacationdetailData.vacationTypeStr }}
         </el-descriptions-item>
-        <el-descriptions-item prop="auditStatusStr" label="审核状态 :">
+        <el-descriptions-item label="审核状态">
             {{ vacationdetailData.auditStatusStr }}
         </el-descriptions-item>
-        <el-descriptions-item prop="createTime" label="上报时间 :">
+        <el-descriptions-item label="上报时间">
             {{ vacationdetailData.createTime }}
         </el-descriptions-item>
-        <el-descriptions-item prop="updateTime" label="更新时间 :">
+        <el-descriptions-item label="更新时间">
             {{ vacationdetailData.updateTime }}
         </el-descriptions-item>
-        <el-descriptions-item prop="reason" label="休假事由 :">
+        <el-descriptions-item label="休假事由" :span="2">
             {{ vacationdetailData.reason }}
         </el-descriptions-item>
-        <el-descriptions-item prop="auditResult" label="审核意见 :">
+        <el-descriptions-item label="审核意见" :span="2">
             {{ vacationdetailData.auditResult }}
         </el-descriptions-item>
     </el-descriptions>

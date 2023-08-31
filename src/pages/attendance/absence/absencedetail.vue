@@ -1,24 +1,24 @@
 <template>
-    <el-descriptions v-loading="formLoading" border :column="1">
-        <el-descriptions-item label="缺打考勤时间 :" min-width="10px">
+    <el-descriptions v-loading="formLoading" border :column="2">
+        <el-descriptions-item label="缺打考勤时间" :span="2">
             {{ absencedetailData.absenceDateTime }}[{{ absencedetailData.checkInTypeStr }}]
         </el-descriptions-item>
-        <el-descriptions-item label="证明人 :">
+        <el-descriptions-item label="证明人">
             {{ absencedetailData.prover }}
         </el-descriptions-item>
-        <el-descriptions-item label="审核状态 :">
+        <el-descriptions-item label="审核状态">
             {{ absencedetailData.auditStatusStr }}
         </el-descriptions-item>
-        <el-descriptions-item label="上报时间 :">
+        <el-descriptions-item label="上报时间">
             {{ absencedetailData.createTime }}
         </el-descriptions-item>
-        <el-descriptions-item label="更新时间 :">
+        <el-descriptions-item label="更新时间">
             {{ absencedetailData.updateTime }}
         </el-descriptions-item>
-        <el-descriptions-item label="缺打事由 :">
+        <el-descriptions-item label="缺打事由">
             {{ absencedetailData.reason }}
         </el-descriptions-item>
-        <el-descriptions-item label="审核意见 :">
+        <el-descriptions-item label="审核意见" :span="2">
             {{ absencedetailData.auditResult }}
         </el-descriptions-item>
     </el-descriptions>

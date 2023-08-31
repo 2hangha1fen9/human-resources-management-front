@@ -1,28 +1,25 @@
 <template>
-    <el-descriptions v-loading="formLoading" border :column="1">
-        <el-descriptions-item label="外勤日期 :" min-width="10px">
+    <el-descriptions v-loading="formLoading" border :column="2">
+        <el-descriptions-item label="外勤日期" :span="2">
             {{ moment(fieldworkdetailData.beginDate).format('YYYY-MM-DD') + "至" +
-                moment(fieldworkdetailData.endDate).format('YYYY-MM-DD') }}
+                moment(fieldworkdetailData.endDate).format('YYYY-MM-DD') }}({{ fieldworkdetailData.duration }})
         </el-descriptions-item>
-        <el-descriptions-item label="合计天数 :">
-            {{ fieldworkdetailData.duration }}
-        </el-descriptions-item>
-        <el-descriptions-item label="目的地 :">
+        <el-descriptions-item label="目的地" :span="2">
             {{ fieldworkdetailData.address }}
         </el-descriptions-item>
-        <el-descriptions-item label="审核状态 :">
+        <el-descriptions-item label="审核状态">
             {{ fieldworkdetailData.auditStatusStr }}
         </el-descriptions-item>
-        <el-descriptions-item label="上报时间 :">
+        <el-descriptions-item label="上报时间">
             {{ fieldworkdetailData.createTime }}
         </el-descriptions-item>
-        <el-descriptions-item label="更新时间 :">
+        <el-descriptions-item label="更新时间">
             {{ fieldworkdetailData.updateTime }}
         </el-descriptions-item>
-        <el-descriptions-item label="外勤事由 :">
+        <el-descriptions-item label="外勤事由" :span="2">
             {{ fieldworkdetailData.reason }}
         </el-descriptions-item>
-        <el-descriptions-item label="审核意见 :">
+        <el-descriptions-item label="审核意见" :span="2">
             {{ fieldworkdetailData.auditResult }}
         </el-descriptions-item>
     </el-descriptions>

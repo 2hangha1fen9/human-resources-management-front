@@ -1,34 +1,32 @@
 <template>
     <el-descriptions border v-loading="formLoading" :column="1">
-        <el-descriptions-item label="出差日期 :" min-width="100px">
+        <el-descriptions-item label="出差日期" min-width="100px">
             {{ moment(businesstripdetailData.beginDate).format('YYYY-MM-DD') + "至" +
-                moment(businesstripdetailData.endDate).format('YYYY-MM-DD') }}
+                moment(businesstripdetailData.endDate).format('YYYY-MM-DD') }}({{
+        businesstripdetailData.duration }})
         </el-descriptions-item>
-        <el-descriptions-item label="合计天数 :">
-            {{ businesstripdetailData.duration }}
-        </el-descriptions-item>
-        <el-descriptions-item label="目的地 :">
+        <el-descriptions-item label="目的地">
             {{ businesstripdetailData.address }}
         </el-descriptions-item>
-        <el-descriptions-item label="审核状态 :">
+        <el-descriptions-item label="审核状态">
             {{ businesstripdetailData.auditStatusStr }}
         </el-descriptions-item>
-        <el-descriptions-item label="上报时间 :">
+        <el-descriptions-item label="上报时间">
             {{ businesstripdetailData.createTime }}
         </el-descriptions-item>
-        <el-descriptions-item label="更新时间 :">
+        <el-descriptions-item label="更新时间">
             {{ businesstripdetailData.updateTime }}
         </el-descriptions-item>
-        <el-descriptions-item label="出差事由 :">
+        <el-descriptions-item label="出差事由">
             {{ businesstripdetailData.reason }}
         </el-descriptions-item>
-        <el-descriptions-item label="归来结果 :">
+        <el-descriptions-item label="归来结果">
             {{ businesstripdetailData.result }}
         </el-descriptions-item>
-        <el-descriptions-item label="所需支持 :">
+        <el-descriptions-item label="所需支持">
             {{ businesstripdetailData.support }}
         </el-descriptions-item>
-        <el-descriptions-item label="审核意见 :">
+        <el-descriptions-item label="审核意见">
             {{ businesstripdetailData.auditResult }}
         </el-descriptions-item>
     </el-descriptions>
