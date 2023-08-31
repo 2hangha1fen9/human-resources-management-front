@@ -16,7 +16,7 @@
             <el-input type="textarea" maxlength="52" :autosize="{ minRows: 1, maxRows: 2 }" resize='none'
                 v-model="businesstripdetailData.reason" />
         </el-form-item>
-        <el-form-item prop="result" label="预计出差归来结果 :">
+        <el-form-item prop="result" label="出差归来结果 :">
             <el-input type="textarea" maxlength="52" :autosize="{ minRows: 1, maxRows: 2 }" resize='none'
                 v-model="businesstripdetailData.result" />
         </el-form-item>
