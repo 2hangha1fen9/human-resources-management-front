@@ -2,9 +2,6 @@
     <div>
         <div class="search-panel">
             <el-form :inline="true" :model="query" class="demo-form-inline" @keyup.enter="search">
-                <el-form-item label="上报时间 :">
-                    <el-date-picker type="date" placeholder="选择时间" value-format="YYYY-MM-DD" format="YYYY-MM-DD" size="small" v-model="query.createTime"/>
-                </el-form-item>
                 <el-form-item label="审核状态 :">
                     <EnumSelect size="small" api="/enum/Get/AuditStatus" v-model="query.auditstatus" />
                 </el-form-item>
@@ -12,8 +9,7 @@
                     <el-button size="small" type="primary" @click="search">搜索</el-button>
                 </el-form-item>
                 <el-form-item>
-                    <el-button size="small" type="success"
-                        @click="() => {compensatoryAddVisible = true }">申请</el-button>
+                    <el-button size="small" type="success" @click="() => { compensatoryAddVisible = true }">申请</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -26,23 +22,23 @@
                 </el-table-column>
                 <el-table-column label="上班日期" width="200">
                     <template #default="scope">
-                        {{moment(scope.row.workDate).format("YYYY-MM-DD")}}
+                        {{ moment(scope.row.workDate).format("YYYY-MM-DD") }}
                     </template>
                 </el-table-column>
                 <el-table-column prop="restDate" label="倒休日期" width="200">
                     <template #default="scope">
-                        {{moment(scope.row.restDate).format("YYYY-MM-DD")}}
+                        {{ moment(scope.row.restDate).format("YYYY-MM-DD") }}
                     </template>
                 </el-table-column>
-                <el-table-column prop="workPlan" label="工作安排" width="180"/>
-                <el-table-column prop="auditStatusStr" label="审核状态" width="100"/>
+                <el-table-column prop="workPlan" label="工作安排" width="180" />
+                <el-table-column prop="auditStatusStr" label="审核状态" width="100" />
                 <el-table-column prop="createTime" label="上报时间" width="186" />
                 <el-table-column prop="updateTime" label="更新时间" width="186" />
                 <el-table-column fixed="right" label="操作">
                     <template #default="scope">
                         <el-button-group>
                             <el-button type="primary" size="small"
-                                @click="() => {compensatoryDetailVisible = true ;compensatoryapplydetailid=scope.row.id}">查看详情</el-button>
+                                @click="() => { compensatoryDetailVisible = true; compensatoryapplydetailid = scope.row.id }">查看详情</el-button>
                         </el-button-group>
                     </template>
                 </el-table-column>
@@ -53,13 +49,13 @@
             </div>
         </div>
         <div class="modal">
-            <el-dialog v-model="compensatoryDetailVisible" destroy-on-close title="调休申请详情" style="width: 600px; max-width: 100%">
+            <el-dialog v-model="compensatoryDetailVisible" destroy-on-close title="调休申请详情"
+                style="width: 600px; max-width: 100%">
                 <compensatoryDetail :id="compensatoryapplydetailid"
                     @onClose="() => { compensatoryDetailVisible = false; search() }" />
             </el-dialog>
             <el-dialog v-model="compensatoryAddVisible" destroy-on-close title="调休申请" style="width: 600px; max-width: 100%">
-                <compensatoryAdd
-                    @onClose="() => { compensatoryAddVisible = false; search() }" />
+                <compensatoryAdd @onClose="() => { compensatoryAddVisible = false; search() }" />
             </el-dialog>
         </div>
     </div>
@@ -75,8 +71,7 @@ import compensatoryAdd from './compensatoryAdd.vue'
 import moment from 'moment'
 
 const query = reactive({
-    createTime:"",
-    auditstatus:-1,
+    auditstatus: -1,
     pageNum: 1,
     rows: 20
 })
@@ -86,7 +81,7 @@ const compensatoryList = ref([])
 const recordCount = ref(0)
 const compensatoryDetailVisible = ref(false)
 const compensatoryAddVisible = ref(false)
-const compensatoryapplydetailid =ref(0)
+const compensatoryapplydetailid = ref(0)
 
 const search = async () => {
     try {

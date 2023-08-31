@@ -2,9 +2,6 @@
     <div>
         <div class="search-panel">
             <el-form :inline="true" :model="query" class="demo-form-inline" @keyup.enter="search">
-                <el-form-item label="上报时间 :">
-                    <el-date-picker type="date" placeholder="选择时间" value-format="YYYY-MM-DD" format="YYYY-MM-DD" size="small" v-model="query.createTime"/>
-                </el-form-item>
                 <el-form-item label="休假类型 :">
                     <EnumSelect size="small" api="/enum/Get/VacationType" v-model="query.vacationtype" />
                 </el-form-item>
@@ -15,8 +12,7 @@
                     <el-button size="small" type="primary" @click="search">搜索</el-button>
                 </el-form-item>
                 <el-form-item>
-                    <el-button size="small" type="success"
-                        @click="() => {vacationAddVisible = true }">申请</el-button>
+                    <el-button size="small" type="success" @click="() => { vacationAddVisible = true }">申请</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -29,19 +25,19 @@
                 </el-table-column>
                 <el-table-column prop="vacationDateTimeandcheckInTypeStr" label="休假日期" width="320">
                     <template #default="scope">
-                        {{ scope.row.beginDate+" 到 "+scope.row.endDate }}
+                        {{ scope.row.beginDate + " 到 " + scope.row.endDate }}
                     </template>
                 </el-table-column>
-                <el-table-column prop="duration" label="合计天数" width="120"/>
-                <el-table-column prop="vacationTypeStr" label="休假类型" width="120"/>
-                <el-table-column prop="auditStatusStr" label="审核状态" width="100"/>
+                <el-table-column prop="duration" label="合计天数" width="120" />
+                <el-table-column prop="vacationTypeStr" label="休假类型" width="120" />
+                <el-table-column prop="auditStatusStr" label="审核状态" width="100" />
                 <el-table-column prop="createTime" label="上报时间" width="200" />
                 <el-table-column prop="updateTime" label="更新时间" width="200" />
                 <el-table-column fixed="right" label="操作">
                     <template #default="scope">
                         <el-button-group>
                             <el-button type="primary" size="small"
-                                @click="() => { vacationDetailVisible = true ;vacationapplydetailid=scope.row.id}">查看详情</el-button>
+                                @click="() => { vacationDetailVisible = true; vacationapplydetailid = scope.row.id }">查看详情</el-button>
                         </el-button-group>
                     </template>
                 </el-table-column>
@@ -52,13 +48,12 @@
             </div>
         </div>
         <div class="modal">
-            <el-dialog v-model="vacationDetailVisible" destroy-on-close title="休假申请详情" style="width: 600px; max-width: 100%">
-                <vacationDetail :id="vacationapplydetailid"
-                    @onClose="() => {vacationDetailVisible = false; search() }" />
+            <el-dialog v-model="vacationDetailVisible" destroy-on-close title="休假申请详情"
+                style="width: 600px; max-width: 100%">
+                <vacationDetail :id="vacationapplydetailid" @onClose="() => { vacationDetailVisible = false; search() }" />
             </el-dialog>
             <el-dialog v-model="vacationAddVisible" destroy-on-close title="休假申请" style="width: 600px; max-width: 100%">
-                <vacationAdd
-                    @onClose="() => {vacationAddVisible = false; search() }" />
+                <vacationAdd @onClose="() => { vacationAddVisible = false; search() }" />
             </el-dialog>
         </div>
     </div>
@@ -73,9 +68,8 @@ import vacationDetail from './vacationdetail.vue'
 import vacationAdd from './vacationAdd.vue'
 
 const query = reactive({
-    createTime:"",
     vacationtype: -1,
-    auditstatus:-1,
+    auditstatus: -1,
     pageNum: 1,
     rows: 20
 })
@@ -86,7 +80,7 @@ const recordCount = ref(0)
 const vacationDetailVisible = ref(false)
 const vacationAddVisible = ref(false)
 const currentvacation = ref({})
-const vacationapplydetailid =ref(0)
+const vacationapplydetailid = ref(0)
 
 const search = async () => {
     try {
