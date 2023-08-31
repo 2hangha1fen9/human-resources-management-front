@@ -38,6 +38,44 @@
                     <el-button size="small" type="success"
                         @click="() => { currentEmployee = {}; employeeEditVisible = true }">添加</el-button>
                 </el-form-item>
+                <el-form-item>
+                    <el-button size="small" type="success" @click="exportEmployee">导出到Excel</el-button>
+                    <el-popover placement="bottom" :width="380" trigger="click" @hide="() => {
+                        uploadResult = {
+                            employeeSuccessCount: 0,
+                            employeeErrorCount: 0,
+                            userSuccessCount: 0,
+                            userErrorCount: 0,
+                            bindSuccessCount: 0,
+                            bindErrorCount: 0
+                        }; fileList = []
+                    }">
+                        <template #reference>
+                            <el-button style="margin-right: 16px" size="small" type="primary">从Excel导入</el-button>
+                        </template>
+                        <div style="display: flex;align-items: center;justify-content: space-between;margin-bottom: 10px;">
+                            <div style="display: flex;align-items: center;">
+                                <el-upload v-model:file-list="fileList" action="#" :show-file-list="false"
+                                    :http-request="importEmployee" ref="uploader" :limit="1">
+                                    <el-button :loading="uploadLoading" size="small" type="primary">导入员工信息</el-button>
+                                </el-upload>
+                                <el-tooltip class="box-item" effect="dark" content="创建默认登陆账号,账号密码均为工号" placement="top">
+                                    <el-checkbox v-model="createUser" label="允许登陆" style="margin-left:10px"></el-checkbox>
+                                </el-tooltip>
+                            </div>
+
+                            <el-button size="small" type="success" @click="downloadEmployeeTemplate">下载导入模版</el-button>
+                        </div>
+                        <div style="text-align: center;">
+                            <el-tag class="tag" type="success">添加员工成功: {{ uploadResult.employeeSuccessCount }}</el-tag>
+                            <el-tag class="tag" type="success">添加用户成功: {{ uploadResult.userSuccessCount }}</el-tag>
+                            <el-tag class="tag" type="success">权限绑定成功: {{ uploadResult.bindSuccessCount }}</el-tag>
+                            <el-tag class="tag" type="danger">添加员工失败: {{ uploadResult.employeeErrorCount }}</el-tag>
+                            <el-tag class="tag" type="danger">添加用户失败: {{ uploadResult.userErrorCount }}</el-tag>
+                            <el-tag class="tag" type="danger">权限绑定失败: {{ uploadResult.bindErrorCount }}</el-tag>
+                        </div>
+                    </el-popover>
+                </el-form-item>
             </el-form>
         </div>
         <div class="table-panel">
@@ -80,7 +118,7 @@
         </div>
         <div class="modal">
             <el-dialog v-model="employeeEditVisible" destroy-on-close title="员工编辑" style="width: 600px; max-width: 100%">
-                <EmployeeEdit :employeeId="currentEmployee.id"
+                <EmployeeEdit :employeeId="currentEmployee.id || 0"
                     @onClose="() => { currentEmployee = {}; employeeEditVisible = false; search() }" />
             </el-dialog>
         </div>
@@ -89,7 +127,7 @@
 
 <script setup>
 import { ref, reactive, watch, onMounted, onUnmounted } from 'vue'
-import { post, del } from '@/utils/request'
+import { post, del, download, upload } from '@/utils/request'
 import { ElMessageBox } from 'element-plus'
 import EnumSelect from '@/components/EnumSelect.vue'
 import EmployeeEdit from './EmployeeEdit.vue'
@@ -113,6 +151,18 @@ const employeeList = ref([])
 const recordCount = ref(0)
 const employeeEditVisible = ref(false)
 const currentEmployee = ref({})
+const uploader = ref()
+const fileList = ref([])
+const createUser = ref(false)
+const uploadLoading = ref(false)
+const uploadResult = ref({
+    employeeSuccessCount: 0,
+    employeeErrorCount: 0,
+    userSuccessCount: 0,
+    userErrorCount: 0,
+    bindSuccessCount: 0,
+    bindErrorCount: 0
+})
 
 const search = async () => {
     try {
@@ -136,6 +186,54 @@ const deleteEmployee = async (row) => {
         catch (e) { }
     }
 }
+const exportEmployee = async () => {
+    let res = await download('/employee/ExportEmployeeToExcel', 'post', query)
+    // 将响应数据转换为Blob
+    const blob = new Blob([res.data], { type: res.headers['content-type'] });
+    // 创建一个隐藏的a标签用于下载文件
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    console.log(res.headers["filename"])
+    link.download = decodeURIComponent(res.headers["filename"]);
+    link.style.display = 'none';
+    document.body.appendChild(link);
+
+    // 触发下载
+    link.click();
+
+    // 清理DOM
+    document.body.removeChild(link);
+}
+const importEmployee = async (option) => {
+    try {
+        uploadLoading.value = true;
+        let formData = new FormData();
+        formData.append("file", option.file)
+        let res = await upload(`/employee/ImportEmployeeForExcel?createUser=${createUser.value}`, formData)
+        uploadResult.value = res.data
+        search()
+    } finally {
+        uploadLoading.value = false;
+    }
+}
+const downloadEmployeeTemplate = async () => {
+    let res = await download('/employee/DownloadEmployeeTemplate', 'post')
+    // 将响应数据转换为Blob
+    const blob = new Blob([res.data], { type: res.headers['content-type'] });
+    // 创建一个隐藏的a标签用于下载文件
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    console.log(res.headers["filename"])
+    link.download = decodeURIComponent(res.headers["filename"]);
+    link.style.display = 'none';
+    document.body.appendChild(link);
+
+    // 触发下载
+    link.click();
+
+    // 清理DOM
+    document.body.removeChild(link);
+}
 
 const setTableHeight = () => {
     let tableHeader = document.querySelector(".el-table__header-wrapper")
@@ -157,3 +255,9 @@ onUnmounted(() => {
 
 search()
 </script>
+
+<style scoped>
+.tag {
+    margin: 5px;
+}
+</style>

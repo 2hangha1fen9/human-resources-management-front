@@ -119,4 +119,34 @@ export async function del(url, data) {
         data: data,
     })
 }
+
+/**
+ * 下载文件
+ * @param {*} url 请求路径
+ * @param {*} data body数据
+ * @returns
+ */
+export async function download(url, method, data) {
+    return axios({
+        method: method,
+        url: `${API}${url}`,
+        data: data,
+        params: data,
+        responseType: "blob",
+        headers: {
+            access_token: `${store.getters["identity/token"]}`,
+        },
+    })
+}
+//上传文件
+export function upload(url, formData) {
+    return service({
+        url: url,
+        headers: {
+            "content-type": "multipart/form-data",
+        },
+        method: "post",
+        data: formData,
+    })
+}
 export default service

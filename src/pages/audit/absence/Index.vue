@@ -75,7 +75,7 @@ import EnumSelect from '@/components/EnumSelect.vue'
 
 const query = reactive({
     createTime:"",
-
+    employeeName:"",
     checkintype: -1,
     auditstatus:-1,
     pageNum: 1,

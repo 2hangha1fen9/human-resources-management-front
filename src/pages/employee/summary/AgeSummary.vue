@@ -19,7 +19,9 @@ let chartInstance = null
 let chartOption = null
 const initChart = async () => {
     //初始化图表
-    chartInstance = echarts.init(view.value)
+    chartInstance = echarts.init(view.value, null, {
+        renderer: 'svg'
+    })
     chartInstance.showLoading()
     chartOption = {
         tooltip: {
