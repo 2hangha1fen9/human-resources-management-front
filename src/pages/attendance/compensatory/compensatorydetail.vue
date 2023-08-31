@@ -1,24 +1,24 @@
 <template>
-    <el-descriptions border v-loading="formLoading" :column="1">
-        <el-descriptions-item label="上班日期 :">
+    <el-descriptions border v-loading="formLoading" :column="2">
+        <el-descriptions-item label="上班日期">
             {{ compensatorydetailData.workDate }}
         </el-descriptions-item>
-        <el-descriptions-item label="倒休日期 :">
+        <el-descriptions-item label="倒休日期">
             {{ compensatorydetailData.restDate }}
         </el-descriptions-item>
-        <el-descriptions-item label="工作安排 :">
+        <el-descriptions-item label="工作安排" :span="2">
             {{ compensatorydetailData.workPlan }}
         </el-descriptions-item>
-        <el-descriptions-item label="审核状态 :">
+        <el-descriptions-item label="审核状态">
             {{ compensatorydetailData.auditStatusStr }}
         </el-descriptions-item>
-        <el-descriptions-item label="上报时间 :">
+        <el-descriptions-item label="上报时间">
             {{ compensatorydetailData.createTime }}
         </el-descriptions-item>
-        <el-descriptions-item label="更新时间 :">
+        <el-descriptions-item label="更新时间">
             {{ compensatorydetailData.updateTime }}
         </el-descriptions-item>
-        <el-descriptions-item label="审核意见 :">
+        <el-descriptions-item label="审核意见" :span="2">
             {{ compensatorydetailData.auditResul }}
         </el-descriptions-item>
     </el-descriptions>
