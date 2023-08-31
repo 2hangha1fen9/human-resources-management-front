@@ -1,34 +1,34 @@
-import router from "./index"
-import { ElMessage } from "element-plus"
-import store from "@/store/index"
+import router from "./index";
+import { ElMessage } from "element-plus";
+import store from "@/store/index";
 
 //路由白名单
-const whiteList = [/identity/i]
+const whiteList = [/identity/i];
 
 //初始化路由
-await store.dispatch("identity/initRoute")
+await store.dispatch("identity/initRoute");
 
 router.beforeEach(async (to, from, next) => {
     if (store.getters["identity/isValid"]) {
         //如果已经登录了则跳转
-        next()
+        next();
     } else {
         //匹配路径白名单
-        let access = false
+        let access = false;
         whiteList.forEach((r) => {
             if (r.test(decodeURIComponent(to.path))) {
-                access = true
+                access = true;
             }
-        })
+        });
         if (access) {
-            next()
+            next();
         } else {
             //清除所有信息跳转到登录页
-            await store.dispatch("identity/logout")
-            ElMessage.warning("用户信息已过期,请重新登录")
-            next(`/identity/login`)
+            await store.dispatch("identity/logout");
+            ElMessage.warning("用户信息已过期,请重新登录");
+            next(`/identity/login`);
         }
     }
-})
+});
 
-router.afterEach(() => {})
+router.afterEach(() => {});
