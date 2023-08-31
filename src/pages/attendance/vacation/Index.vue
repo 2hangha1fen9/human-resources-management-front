@@ -28,9 +28,9 @@
                         {{ scope.row.beginDate + " 到 " + scope.row.endDate }}
                     </template>
                 </el-table-column>
-                <el-table-column prop="duration" label="合计天数" width="120" />
-                <el-table-column prop="vacationTypeStr" label="休假类型" width="120" />
-                <el-table-column prop="auditStatusStr" label="审核状态" width="100" >
+                <el-table-column prop="duration" label="合计天数" width="120"/>
+                <el-table-column prop="vacationTypeStr" label="休假类型" width="120"/>
+                <el-table-column prop="auditStatusStr" label="审核状态" width="100">
                     <template #default="scope">
                         <el-text type="success" v-if="scope.row.auditStatus==2">{{scope.row.auditStatusStr}}</el-text>
                         <el-text type="danger" v-else-if="scope.row.auditStatus==3">{{scope.row.auditStatusStr}}</el-text>
@@ -85,7 +85,6 @@ const vacationList = ref([])
 const recordCount = ref(0)
 const vacationDetailVisible = ref(false)
 const vacationAddVisible = ref(false)
-const currentvacation = ref({})
 const vacationapplydetailid = ref(0)
 
 const search = async () => {

@@ -82,7 +82,6 @@ const fieldworkList = ref([])
 const recordCount = ref(0)
 const fieldworkDetailVisible = ref(false)
 const fieldworkAddVisible = ref(false)
-const currentfieldwork = ref({})
 const fieldworkapplydetailid = ref(0)
 
 const search = async () => {

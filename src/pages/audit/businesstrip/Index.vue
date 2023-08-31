@@ -9,9 +9,6 @@
                     <EnumSelect size="small" api="/department/QueryDepartmentByPage" v-model="query.departmentId" keys="id"
                         values="departmentName" :request="post" :params="{ rows: 0 }" />
                 </el-form-item>
-                <el-form-item label="打卡类型 :">
-                    <EnumSelect size="small" api="/enum/Get/CheckInType" v-model="query.checkintype" />
-                </el-form-item>
                 <el-form-item label="审核状态 :">
                     <EnumSelect size="small" api="/enum/Get/AuditStatus" v-model="query.auditstatus" />
                 </el-form-item>
@@ -27,31 +24,34 @@
                         {{ (query.pageNum - 1) * query.rows + scope.$index + 1 }}
                     </template>
                 </el-table-column>
+                <el-table-column prop="employeeName" label="申请人" width="100" />
+                <el-table-column prop="departmentName" label="部门" width="100" />
                 <el-table-column prop="businesstripDateTimeandcheckInTypeStr" label="出差日期" width="320">
                     <template #default="scope">
-                        {{ scope.row.beginDate+"至"+scope.row.endDate }}
+                        {{ scope.row.beginDate + "至" + scope.row.endDate }}
                     </template>
                 </el-table-column>
-                <el-table-column prop="duration" label="合计天数" width="120"/>
-                <el-table-column prop="address" label="出差目的地" width="180"/>
+                <el-table-column prop="duration" label="合计天数" width="120" />
+                <el-table-column prop="address" label="出差目的地" width="180" />
                 <el-table-column prop="auditStatusStr" label="审核状态" width="100">
                     <template #default="scope">
-                        <el-text type="success" v-if="scope.row.auditStatus==2">{{scope.row.auditStatusStr}}</el-text>
-                        <el-text type="danger" v-else-if="scope.row.auditStatus==3">{{scope.row.auditStatusStr}}</el-text>
-                        <el-text type="primary" v-else>{{scope.row.auditStatusStr}}</el-text>
+                        <el-text type="success" v-if="scope.row.auditStatus == 2">{{ scope.row.auditStatusStr }}</el-text>
+                        <el-text type="danger" v-else-if="scope.row.auditStatus == 3">{{ scope.row.auditStatusStr
+                        }}</el-text>
+                        <el-text type="primary" v-else>{{ scope.row.auditStatusStr }}</el-text>
                     </template>
                 </el-table-column>
                 <el-table-column prop="createTime" label="上报时间" width="186" />
                 <el-table-column prop="updateTime" label="更新时间" width="186" />
-                <el-table-column fixed="right" label="操作">
-                    <template #default="scope">
-                        <el-button-group v-if="scope.row.auditStatus==1">
-                            <el-button type="success" size="small"
-                                @click="() => { absenceAuditVisible = true ;absenceapplyauditid=scope.row.id}">审核</el-button>
+                <el-table-column fixed="right" label="操作"  width="140">
+                    <template #default="scope">                            
+                        <el-button-group>
+                            <el-button type="success" size="small" v-if="scope.row.auditStatus == 1"
+                                @click="() => { businesstripAuditVisible = true; businesstripapplyid = scope.row.id }">审核</el-button>
+                            <el-text type="primary" v-else>已审核&nbsp;</el-text>
+                            <el-button type="primary" size="small"
+                                @click="() => { businesstripDetailVisible = true; businesstripapplyid = scope.row.id }">查看详情</el-button>
                         </el-button-group>
-                        <el-text  type="primary" v-else>已审核</el-text>
-                        <el-button type="primary" size="small"
-                                @click="() => {businesstripDetailVisible = true ;businesstripapplydetailid=scope.row.id}">查看详情</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -61,8 +61,14 @@
             </div>
         </div>
         <div class="modal">
-            <el-dialog v-model="businesstripDetailVisible" destroy-on-close title="出差审核" style="width: 600px; max-width: 100%">
-                <businesstripDetail :id="businesstripapplydetailid"
+            <el-dialog v-model="businesstripAuditVisible" destroy-on-close title="出差审核"
+                style="width: 600px; max-width: 100%">
+                <businesstripAduit :id="businesstripapplyid"
+                    @onClose="() => { businesstripAuditVisible = false; search() }" />
+            </el-dialog>
+            <el-dialog v-model="businesstripDetailVisible" destroy-on-close title="出差申请详情"
+                style="width: 600px; max-width: 100%">
+                <businesstripDetail :id="businesstripapplyid"
                     @onClose="() => { businesstripDetailVisible = false; search() }" />
             </el-dialog>
         </div>
@@ -74,11 +80,11 @@ import { ref, reactive, watch, onMounted, onUnmounted } from 'vue'
 import { post, put, del } from '@/utils/request'
 import { ElMessageBox } from 'element-plus'
 import EnumSelect from '@/components/EnumSelect.vue'
-// import businesstripDetail from './businesstripdetail.vue'
+import businesstripAduit from './businesstripAudit.vue'
+import businesstripDetail from '../../attendance/businesstrip/businesstripdetail.vue'
 const query = reactive({
-    employeeName:"",
-    checkintype: -1,
-    auditstatus:-1,
+    employeeName: "",
+    auditstatus: -1,
     pageNum: 1,
     rows: 20
 })
@@ -86,9 +92,9 @@ const tableHeight = ref(0)
 const tableLoading = ref(false)
 const businesstripList = ref([])
 const recordCount = ref(0)
+const businesstripAuditVisible = ref(false)
+const businesstripapplyid = ref(0)
 const businesstripDetailVisible = ref(false)
-const businesstripAddVisible = ref(false)
-const businesstripapplydetailid =ref(0)
 
 const search = async () => {
     try {

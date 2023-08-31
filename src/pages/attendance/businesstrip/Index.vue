@@ -84,7 +84,6 @@ const businesstripList = ref([])
 const recordCount = ref(0)
 const businesstripDetailVisible = ref(false)
 const businesstripAddVisible = ref(false)
-const currentbusinesstrip = ref({})
 const businesstripapplydetailid = ref(0)
 
 const search = async () => {
