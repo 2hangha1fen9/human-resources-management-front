@@ -1,7 +1,7 @@
 <template>
     <el-form ref="absencedetailForm" label-width="120px" :model="absencedetailData" :rules="absenceAddRules" v-loading="formLoading">
         <el-form-item prop="absenceDateTime" label="缺打考勤时间 :" required>
-            <el-date-picker style="width: 600px;" v-model="absencedetailData.absenceDateTime" value-format="YYYY-MM-DD HH:mm:ss" format="YYYY-MM-DD HH:mm:ss" type="date" placeholder="选择时间" :size="size" required/>
+            <el-date-picker style="width: 600px;" v-model="absencedetailData.absenceDateTime" value-format="YYYY-MM-DD HH:mm:ss" format="YYYY-MM-DD HH:mm:ss" type="date" placeholder="选择时间" :size="size"/>
         </el-form-item>
         <el-form-item prop="checkintype" label="打卡类型" required>
             <EnumSelect style="width: 600px;" size="default" api="/enum/Get/CheckInType" v-model="absencedetailData.checkintype" 
@@ -56,8 +56,6 @@ absencedetailData.value={
 }
 const save = async form => {
     try {
-        if(absenceAddRules.checkintype==-1)
-        ElMessage.error("请选择打卡类型")
         buttonLoading.value = true;
         await form.validate()
         await post('/absenceapply/Apply', absencedetailData.value)

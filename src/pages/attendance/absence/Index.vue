@@ -41,7 +41,7 @@
                     <template #default="scope">
                         <el-button-group>
                             <el-button type="primary" size="small"
-                                @click="() => { currentabsence = scope.row; absenceDetailVisible = true ;absenceapplydetailid=scope.row.id}">查看详情</el-button>
+                                @click="() => { absenceDetailVisible = true ;absenceapplydetailid=scope.row.id}">查看详情</el-button>
                         </el-button-group>
                     </template>
                 </el-table-column>
@@ -54,11 +54,11 @@
         <div class="modal">
             <el-dialog v-model="absenceDetailVisible" destroy-on-close title="缺勤申请详情" style="width: 600px; max-width: 100%">
                 <AbsenceDetail :id="absenceapplydetailid"
-                    @onClose="() => { currentUser = {}; absenceDetailVisible = false; search() }" />
+                    @onClose="() => {absenceDetailVisible = false; search() }" />
             </el-dialog>
             <el-dialog v-model="absenceAddVisible" destroy-on-close title="缺勤申请" style="width: 600px; max-width: 100%">
                 <AbsenceAdd
-                    @onClose="() => { currentUser = {}; absenceAddVisible = false; search() }" />
+                    @onClose="() => {absenceAddVisible = false; search() }" />
             </el-dialog>
         </div>
     </div>
@@ -89,13 +89,11 @@ const currentabsence = ref({})
 const absenceapplydetailid =ref(0)
 
 const search = async () => {
-    console.log(query)
     try {
         tableLoading.value = true
         let res = await post("/absenceapply/QueryMyAbsenceListByPage", query)
         absenceList.value = res.data
         recordCount.value = res.recordCount
-        console.log(absenceList.value)
     } finally {
         tableLoading.value = false
     }

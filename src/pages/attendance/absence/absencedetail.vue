@@ -19,7 +19,7 @@
             <el-input type="textarea" disabled  :autosize="{ minRows: 1, maxRows: 2}" resize='none' v-model="absencedetailData.reason" />
         </el-form-item>
         <el-form-item prop="auditResult" label="审核意见 :" v-show="isshowAuditResult">
-            <el-input disabled :autosize="{ minRows: 1, maxRows: 2}"  resize='none' v-model="absencedetailData.auditResult" />
+            <el-input  type="textarea" disabled :autosize="{ minRows: 1, maxRows: 2}"  resize='none' v-model="absencedetailData.auditResult" />
         </el-form-item>
     </el-form>
     <el-button style="margin-left: 500px;margin-bottom;:-26px" type="primary" @click="emit('onClose')">返回</el-button>
@@ -45,8 +45,6 @@ if (props.id > 0) {
     post(`/absenceapply/GetAbsenceById/${props.id}`).then(res => {
         absencedetailData.value = res.data
         if(absencedetailData.value.auditResult!=null){isshowAuditResult.value=true}
-        console.log(absencedetailData.value)
-
     }).finally(() => {
         formLoading.value = false;
     })
